@@ -67,11 +67,12 @@
    (let [{:keys [alpha epsilon max-iterations]} (merge default-options opts)
          ;; Normalize outgoing trust (rows sum to 1.0) and transpose
          ;; so that incoming trust drives the scores (Columns sum to 1.0)
-         C (transpose (normalize-rows outgoing-trust-matrix (normalize-vector pre-trust)))]
+         pre-trust (normalize-vector pre-trust)
+         C (transpose (normalize-rows outgoing-trust-matrix pre-trust))]
      (loop [t-current pre-trust
             iterations 0]
        (let [t-next (matrix-multiply C t-current)
-             t-stabilized (mapv #(+ (m* (- 1.0 alpha) %1) (m* alpha %2))
+             t-stabilized (mapv #(+ (m* (- 1.0M alpha) %1) (m* alpha %2))
                                 t-next pre-trust)
              delta (apply + (map #(Math/abs (double (- %1 %2))) t-stabilized t-current))]
          (if (or (< delta epsilon) (> iterations max-iterations))
