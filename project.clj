@@ -1,4 +1,4 @@
-(defproject io.github.possum/eigentrust "0.1.1-SNAPSHOT"
+(defproject io.github.possum/eigentrust "0.1.1"
   :description "An Eigentrust library for Clojure"
   :url "https://github.com/Possum/eigentrust"
   :license {:name "MIT License"
